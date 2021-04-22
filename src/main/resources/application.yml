@@ -1,0 +1,22 @@
+cloud:
+  aws:
+    credentials:
+      access-key: AKIARS5K65VDH3DM6H6S
+      secrete-key: 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
+    region:
+      static: ap-south-1
+    stack:
+      auto: false
+
+
+application:
+  bucket:
+    name: potholebucket
+
+
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 5MB
+      max-request-size: 5MB
