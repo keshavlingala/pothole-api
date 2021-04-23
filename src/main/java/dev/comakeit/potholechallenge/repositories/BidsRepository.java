@@ -6,8 +6,13 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.UUID;
+
 @Repository
 @EnableJpaRepositories
-public interface BidsRepository extends JpaRepository<Bid, Integer>, JpaSpecificationExecutor<Bid> {
+public interface BidsRepository extends JpaRepository<Bid, UUID>, JpaSpecificationExecutor<Bid> {
+    public Bid findBidBybidId(UUID id);
 
+    public List<Bid> findBidsByclusterId(String clusterId);
 }

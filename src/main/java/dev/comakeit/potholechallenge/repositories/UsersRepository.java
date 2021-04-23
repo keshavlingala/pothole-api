@@ -17,7 +17,7 @@ public interface UsersRepository extends JpaRepository<User, Integer>, JpaSpecif
 
     Boolean existsByUsername(String username);
 
-    @Query("SELECT u FROM User u WHERE u.licence IS NOT NULL")
+    @Query("SELECT u FROM User u WHERE u.licence IS NOT NULL AND u.roles NOT LIKE '%CONTRACTOR%'")
     List<User> getAllContractorApplications();
 
     User findUserByuserId(UUID id);

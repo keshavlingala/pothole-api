@@ -1,6 +1,7 @@
 package dev.comakeit.potholechallenge.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import dev.comakeit.potholechallenge.models.BidStatus;
+import dev.comakeit.potholechallenge.models.ClusterStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,7 @@ public class Cluster implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "zipcode", nullable = false,columnDefinition = "varchar(50)")
+    @Column(name = "zipcode", nullable = false, columnDefinition = "varchar(50)")
     private String zipcode;
 
     @Column(name = "contractor_id", columnDefinition = "BINARY(16)")
@@ -31,13 +32,13 @@ public class Cluster implements Serializable {
 
     @Column(name = "status")
     @Nullable
-    private Integer status;
+    private ClusterStatus status;
 
-    @OneToMany(targetEntity=Record.class, mappedBy="cluster",cascade=CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = Record.class, mappedBy = "cluster", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Transient
     private List<Record> records = new ArrayList<>();
 
-    public Cluster(String zipcode, @Nullable UUID contractorId, @Nullable Integer status) {
+    public Cluster(String zipcode, @Nullable UUID contractorId, @Nullable ClusterStatus status) {
         this.zipcode = zipcode;
         this.contractorId = contractorId;
         this.status = status;

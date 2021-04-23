@@ -3,6 +3,7 @@ package dev.comakeit.potholechallenge.controllers;
 import dev.comakeit.potholechallenge.entity.Cluster;
 import dev.comakeit.potholechallenge.entity.Record;
 import dev.comakeit.potholechallenge.entity.User;
+import dev.comakeit.potholechallenge.models.ClusterStatus;
 import dev.comakeit.potholechallenge.models.ContractorApplication;
 import dev.comakeit.potholechallenge.repositories.ClustersRepository;
 import dev.comakeit.potholechallenge.repositories.RecordsRepository;
@@ -37,6 +38,11 @@ public class UserController {
         return "Welcome User";
     }
 
+    @GetMapping("whoami")
+    public User whoami() {
+        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
     @PostMapping("contractor/apply")
     public User contractorApply(@RequestBody ContractorApplication application) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -69,7 +75,7 @@ public class UserController {
         Record record = recordsRepository
                 .save(new Record(user.getUserId(), zipcode, lat, lng, description, imgUrl));
         if (!clustersRepository.existsByzipcode(record.getZipcode()))
-            clustersRepository.save(new Cluster(record.getZipcode(), null, null));
+            clustersRepository.save(new Cluster(record.getZipcode(), null, ClusterStatus.UNASSIGNED));
         return record;
     }
 }

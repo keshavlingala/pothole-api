@@ -1,18 +1,21 @@
 package dev.comakeit.potholechallenge.controllers;
 
+import dev.comakeit.potholechallenge.entity.Bid;
 import dev.comakeit.potholechallenge.entity.Cluster;
 import dev.comakeit.potholechallenge.entity.Record;
 import dev.comakeit.potholechallenge.entity.User;
+import dev.comakeit.potholechallenge.repositories.BidsRepository;
 import dev.comakeit.potholechallenge.repositories.ClustersRepository;
 import dev.comakeit.potholechallenge.repositories.RecordsRepository;
 import dev.comakeit.potholechallenge.repositories.UsersRepository;
+import dev.comakeit.potholechallenge.services.BidsService;
 import dev.comakeit.potholechallenge.services.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -28,6 +31,11 @@ public class AdminController {
 
     @Autowired
     ClustersRepository clustersRepository;
+    @Autowired
+    BidsRepository bidsRepository;
+
+    @Autowired
+    BidsService bidsService;
 
     @PostMapping("contractor/approve/{username}")
     private User approveContractor(@PathVariable String username) {
@@ -38,6 +46,7 @@ public class AdminController {
 
         return usersRepository.save(user);
     }
+
 
     @GetMapping("contractor/applications")
     public List<User> getContractorApplications() {
@@ -51,22 +60,15 @@ public class AdminController {
 
     @GetMapping("records")
     private List<Record> getAllRecords() {
-        recordsRepository.findAll().forEach(record -> {
-            System.out.println(record.getCluster());
-        });
         return recordsRepository.findAll();
     }
 
     @GetMapping("clusters")
     private List<Cluster> getAllClusters() {
-        List<Cluster> clusters = new ArrayList<>();
-        for (Cluster c : clustersRepository.findAll()) {
-            clusters.add(new Cluster(c.getZipcode(),
-                    c.getContractorId(),
-                    c.getStatus(),
-                    recordsRepository.findRecordsByzipcode(c.getZipcode())));
-        }
-        return clusters;
+        return clustersRepository
+                .findAll().stream()
+                .map(c -> new Cluster(c.getZipcode(), c.getContractorId(), c.getStatus(),
+                        recordsRepository.findRecordsByzipcode(c.getZipcode()))).collect(Collectors.toList());
     }
 
     @GetMapping("/user/{uuid}")
@@ -79,5 +81,15 @@ public class AdminController {
         User user = usersRepository.findUserByUsername(username);
         usersRepository.delete(user);
         return true;
+    }
+
+    @GetMapping("bids")
+    public List<Bid> getAllBids() {
+        return bidsRepository.findAll();
+    }
+
+    @PostMapping("bid/approve/{bidid}")
+    public Boolean approveBid(@PathVariable("bidid") String bidid) {
+        return bidsService.approveBid(UUID.fromString(bidid));
     }
 }

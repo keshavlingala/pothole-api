@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Repository
 @EnableJpaRepositories
-public interface RecordsRepository extends JpaRepository<Record, Integer>, JpaSpecificationExecutor<Record> {
+public interface RecordsRepository extends JpaRepository<Record, UUID>, JpaSpecificationExecutor<Record> {
     //    @Query("SELECT r from Record r where r.userId=?")
     List<Record> findRecordsByuserId(UUID uuid);
 

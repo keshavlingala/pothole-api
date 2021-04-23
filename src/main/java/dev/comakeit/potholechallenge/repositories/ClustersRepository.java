@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @EnableJpaRepositories
-public interface ClustersRepository extends JpaRepository<Cluster, Integer>, JpaSpecificationExecutor<Cluster> {
+public interface ClustersRepository extends JpaRepository<Cluster, String>, JpaSpecificationExecutor<Cluster> {
     Boolean existsByzipcode(String id);
+
+    Cluster findClusterByzipcode(String id);
 }

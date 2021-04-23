@@ -35,7 +35,6 @@ public class User implements Serializable, UserDetails {
 
     @Column(name = "password")
     @NotNull
-    @Transient
     private String password;
 
     @Column(name = "email")
