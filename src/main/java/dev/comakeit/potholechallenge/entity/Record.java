@@ -37,7 +37,7 @@ public class Record implements Serializable {
     private String img;
 
     @ManyToOne
-    @JoinColumn(name="zipcode", referencedColumnName = "zipcode", insertable = false, updatable = false)
+    @JoinColumn(name="cluster", referencedColumnName = "zipcode", insertable = false, updatable = false)
     private Cluster cluster;
 
 

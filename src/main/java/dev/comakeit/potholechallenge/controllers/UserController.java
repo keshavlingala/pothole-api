@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/user")
@@ -60,7 +61,10 @@ public class UserController {
     @GetMapping("record/myrecords")
     public List<Record> getMyRecords() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return recordsRepository.findRecordsByuserId(user.getUserId());
+        return recordsRepository.findRecordsByuserId(user.getUserId()).stream().map(record -> {
+            record.setCluster(clustersRepository.findClusterByzipcode(record.getZipcode()));
+            return record;
+        }).collect(Collectors.toList());
     }
 
 

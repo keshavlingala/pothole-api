@@ -14,7 +14,7 @@ public class UserErrorHandler {
     }
 
     @ExceptionHandler(InvalidUserNamePasswordException.class)
-    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public InvalidUserNamePasswordException handleInvalidUser(InvalidUserNamePasswordException err) {
         return err;
     }

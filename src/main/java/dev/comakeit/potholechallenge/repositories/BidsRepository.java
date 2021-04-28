@@ -12,7 +12,8 @@ import java.util.UUID;
 @Repository
 @EnableJpaRepositories
 public interface BidsRepository extends JpaRepository<Bid, UUID>, JpaSpecificationExecutor<Bid> {
-    public Bid findBidBybidId(UUID id);
+    Bid findBidBybidId(UUID id);
 
-    public List<Bid> findBidsByclusterId(String clusterId);
+    List<Bid> findBidsByclusterId(String clusterId);
+
 }
