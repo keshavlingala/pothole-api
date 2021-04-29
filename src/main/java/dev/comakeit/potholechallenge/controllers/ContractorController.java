@@ -34,12 +34,24 @@ public class ContractorController {
     @GetMapping("clusters")
     private List<Cluster> getAllClusters() {
         return clustersRepository
-                .findAll().stream()
+                .findOpenContracts().stream()
                 .map(c -> new Cluster(c.getZipcode(), c.getContractorId(), c.getStatus(),
                         recordsRepository.findRecordsByzipcode(c.getZipcode()))).collect(Collectors.toList());
     }
 
-    @PostMapping("cluster/{zipcode}/apply")
+    @GetMapping("bids")
+    private List<Bid> getMyBids() {
+        User contractor = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return bidsRepository.findBidsBycontractorId(contractor.getUserId());
+    }
+
+    @GetMapping("bid/{zipcode}")
+    private Bid isAvailable(@PathVariable("zipcode") String zipcode) {
+        User contractor = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return bidsRepository.findBidByUser(contractor.getUserId(), zipcode);
+    }
+
+    @PostMapping("bid/apply/{zipcode}")
     private Bid applyBid(@RequestBody BidRequest bidRequest, @PathVariable("zipcode") String zipcode) {
         User contractor = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return bidsRepository.save(
