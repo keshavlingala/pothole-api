@@ -18,4 +18,10 @@ public class UserErrorHandler {
     public InvalidUserNamePasswordException handleInvalidUser(InvalidUserNamePasswordException err) {
         return err;
     }
+
+    @ExceptionHandler(UnAuthorizedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public UnAuthorizedException handleUnAuthorized(UnAuthorizedException exception) {
+        return exception;
+    }
 }

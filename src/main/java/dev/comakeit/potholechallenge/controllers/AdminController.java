@@ -63,7 +63,7 @@ public class AdminController {
         return recordsRepository.findAll();
     }
 
-    @GetMapping("clusters")
+    @GetMapping("contracts")
     private List<Cluster> getAllClusters() {
         return clustersRepository
                 .findAll().stream()
@@ -85,11 +85,19 @@ public class AdminController {
 
     @GetMapping("bids")
     public List<Bid> getAllBids() {
-        return bidsRepository.findAll();
+        return bidsRepository.getPendingBids();
+    }
+
+    @GetMapping("clusters")
+    private List<Cluster> getAllContracts() {
+        return clustersRepository.findAll()
+                .stream()
+                .map(cluster -> new Cluster(cluster.getZipcode(), cluster.getContractorId(), cluster.getStatus(),
+                        recordsRepository.findRecordsByzipcode(cluster.getZipcode()))).collect(Collectors.toList());
     }
 
     @PostMapping("bid/approve/{bidid}")
-    public Boolean approveBid(@PathVariable("bidid") String bidid) {
+    public Bid approveBid(@PathVariable("bidid") String bidid) {
         return bidsService.approveBid(UUID.fromString(bidid));
     }
 }

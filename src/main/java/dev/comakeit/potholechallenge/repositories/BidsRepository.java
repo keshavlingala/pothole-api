@@ -21,4 +21,7 @@ public interface BidsRepository extends JpaRepository<Bid, UUID>, JpaSpecificati
     Bid findBidByUser(UUID userID, String zipcode);
 
     List<Bid> findBidsBycontractorId(UUID id);
+
+    @Query("SELECT b FROM Bid b WHERE b.status=2")
+    List<Bid> getPendingBids();
 }

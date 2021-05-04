@@ -28,7 +28,7 @@ public class BidsService {
     ClustersRepository clustersRepository;
 
     @Transactional(isolation = Isolation.DEFAULT)
-    public Boolean approveBid(UUID bidId) {
+    public Bid approveBid(UUID bidId) {
         try {
             Bid bid = bidsRepository.findBidBybidId(bidId);
             User contractor = usersRepository.findUserByuserId(bid.getContractorId());
@@ -36,17 +36,18 @@ public class BidsService {
             List<Bid> rejectBids = bidsRepository.findBidsByclusterId(bid.getClusterId());
             cluster.setContractorId(contractor.getUserId());
             cluster.setStatus(ClusterStatus.ASSIGNED);
-            rejectBids.stream().forEach(bid1 -> {
+            log.info(cluster + "\n" + bid + "\n" + contractor + "\n" + rejectBids);
+            rejectBids.forEach(bid1 -> {
                 if (bid1.getBidId().equals(bid.getBidId()))
                     bid1.setStatus(BidStatus.APPROVED);
                 else
                     bid1.setStatus(BidStatus.REJECTED);
                 bidsRepository.save(bid);
             });
-            return true;
+            return bid;
         } catch (Exception e) {
             log.error("Unable to Approve Bid", e);
-            return false;
+            return null;
         }
     }
 }

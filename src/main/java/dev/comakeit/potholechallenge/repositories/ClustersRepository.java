@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 @EnableJpaRepositories
@@ -18,4 +19,6 @@ public interface ClustersRepository extends JpaRepository<Cluster, String>, JpaS
 
     @Query("SELECT c FROM Cluster c WHERE c.status=0")
     List<Cluster> findOpenContracts();
+
+    List<Cluster> findClustersBycontractorId(UUID id);
 }
