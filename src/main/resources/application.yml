@@ -36,10 +36,10 @@ security:
 
 server:
   port: 8080
-  ssl:
-    enabled: true
-    keyStoreType: PKCS12
-    key-store: classpath:baeldung.p12
-    key-store-password: password
-  http:
-    port: 8079
+#  ssl:
+#    enabled: true
+#    keyStoreType: PKCS12
+#    key-store: classpath:baeldung.p12
+#    key-store-password: password
+#  http:
+#    port: 8079
