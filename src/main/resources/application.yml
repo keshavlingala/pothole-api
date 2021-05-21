@@ -3,6 +3,7 @@ cloud:
     credentials:
       access-key: AKIARS5K65VDH3DM6H6S
       secrete-key: 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
+      useDefaultAwsCredentialsChain: true
     region:
       static: ap-south-1
     stack:
