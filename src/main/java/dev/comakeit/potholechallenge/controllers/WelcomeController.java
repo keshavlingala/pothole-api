@@ -1,18 +1,19 @@
 package dev.comakeit.potholechallenge.controllers;
 
-import dev.comakeit.potholechallenge.entity.User;
 import dev.comakeit.potholechallenge.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 public class WelcomeController {
     @Autowired
     UsersRepository usersRepository;
+
+    @GetMapping("/")
+    public String helloWorld() {
+        return "API is Serving Successfully";
+    }
 
 //    @PostConstruct
 //    public void init() {

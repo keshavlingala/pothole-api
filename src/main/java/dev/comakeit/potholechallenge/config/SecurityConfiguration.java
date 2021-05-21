@@ -1,6 +1,5 @@
 package dev.comakeit.potholechallenge.config;
 
-import dev.comakeit.potholechallenge.entity.User;
 import dev.comakeit.potholechallenge.filter.JwtFilter;
 import dev.comakeit.potholechallenge.services.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -55,6 +53,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/contractor/**").hasAnyAuthority("ADMIN", "CONTRACTOR")
                 .antMatchers("/api/user/**").hasAnyAuthority("ADMIN", "USER", "CONTRACTOR")
                 .antMatchers("/api/p/**").permitAll()
+                .antMatchers("/").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
