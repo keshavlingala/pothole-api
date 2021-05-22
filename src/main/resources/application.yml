@@ -22,8 +22,8 @@ spring:
       max-file-size: 5MB
       max-request-size: 5MB
 
-security:
-  require-ssl: true
+#security:
+#  require-ssl: true
 
 #server:
 #  port: 443
@@ -36,7 +36,7 @@ security:
 #    enabled: true
 
 server:
-  port: 8080
+  port: 80
 #  ssl:
 #    enabled: true
 #    keyStoreType: PKCS12
