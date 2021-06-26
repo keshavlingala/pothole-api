@@ -21,4 +21,7 @@ public interface ClustersRepository extends JpaRepository<Cluster, String>, JpaS
     List<Cluster> findOpenContracts();
 
     List<Cluster> findClustersBycontractorId(UUID id);
+
+    @Query("SELECT c FROM Cluster c where c.contractorId IS NOT NULL")
+    List<Cluster> getApprovedContracts();
 }

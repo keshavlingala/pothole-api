@@ -39,6 +39,7 @@ public class AdminController {
 
     @PostMapping("contractor/approve/{username}")
     private User approveContractor(@PathVariable String username) {
+        System.out.println(username);
         User user = usersRepository.findUserByUsername(username);
         System.out.println(user);
         if (!user.getRoles().contains("CONTRACTOR"))
